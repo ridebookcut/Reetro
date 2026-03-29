@@ -1088,7 +1088,7 @@ function loadTimeSlots() {
         const [h, m] = time.split(':').map(Number);
         const slotMins = h * 60 + m;
         // Only mark past on today view
-        const isPast   = isToday && slotMins <= nowMins;
+        const isPast   = isToday && slotMins < nowMins;
 
         // Check each barber
         const slots = BARBERS.map(barber => {
@@ -1232,6 +1232,8 @@ async function submitBooking() {
     document.getElementById('bookingFormPanel').classList.add('hidden');
     selectedSlot = null;
 
+    // Re-render slots so pending state shows immediately
+    console.log('bookingsData after submit:', JSON.stringify(bookingsData));
     loadTimeSlots();
     showNotif('customerNotif', '✅ Booking submitted! Status: PENDING — waiting for owner confirmation.', 'success');
 }
